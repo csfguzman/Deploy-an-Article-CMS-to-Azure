@@ -77,6 +77,7 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
+        flash(f'Welcome {user.username} !')
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('home')
@@ -99,10 +100,16 @@ def authorized():
             scopes=Config.SCOPE,
             redirect_uri=url_for('authorized', _external=True, _scheme="https"))
         session["user"] = result.get("id_token_claims")
-        # Note: In a real app, we'd use the 'name' property from session["user"] below
-        # Here, we'll use the admin username for anyone who is authenticated by MS
-        user = User.query.filter_by(username="admin").first()
+        # Get user name from result, preferred_username is email
+        username = session["user"].get('preferred_username').split('@')[0] # Preprocess the email and use it for username
+        user = User.query.filter_by(username=username).first()
+        if not user:
+            new_user = User(username=username,password_hash='-')
+            db.session.add(new_user)
+            db.session.commit()
+            user = User.query.filter_by(username=username).first()
         login_user(user)
+        flash(f'Welcome {user.username} !')
         _save_cache(cache)
     return redirect(url_for('home'))
 
