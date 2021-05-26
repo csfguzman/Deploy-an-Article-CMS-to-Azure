@@ -73,10 +73,19 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
+        if user and user.password_hash == '-': 
+            # OAuth2 users are not allowed to use password
+            flash('Not Allowed! Sign in with your Microsoft Account')
             return redirect(url_for('login'))
+        elif user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            # Log for unsuccessful login attempt:
+            app.logger.warning("Invalid login attempt!")
+            return redirect(url_for('login'))
+
         login_user(user, remember=form.remember_me.data)
+        # Log for successful login:
+        app.logger.warning(f"{user.username} logged in successfully")
         flash(f'Welcome {user.username} !')
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
