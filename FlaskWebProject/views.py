@@ -47,6 +47,14 @@ def new_post():
 @login_required
 def post(id):
     post = Post.query.get(int(id))
+    if request.args.get('action')=='delete':
+        # if the post has image also, delete it
+        if post.image_path != None:
+            post.delete_image()
+        db.session.delete(post)
+        db.session.commit()
+        flash(f'post "{post.title}" deleted successfully')
+        return redirect(url_for('home'))
     form = PostForm(formdata=request.form, obj=post)
     if form.validate_on_submit():
         post.save_changes(form, request.files['image_path'], current_user.id)
