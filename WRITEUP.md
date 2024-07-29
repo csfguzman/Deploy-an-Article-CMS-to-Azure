@@ -19,26 +19,45 @@ An Azure Platform as a Service (PaaS) is a type of cloud computing service that 
 The appropriate solution for deploying this web application is App Service.
 
 ### Why I choose App service
-- Azure App Service brings together everything developer need to create websites, mobile backends, and web APIs for any platform or device.
-- Azure App service has a built-in infrastructure maintenance, security patching, and scaling.
-- Azure App service Support multiple languages, such as .NET, .NET Core, Java, Ruby, Node.js, PHP, or Python. This  app is written using one of the supported languages i.e Python
-- Azure app service allows me to Quickly build, deploy, and scale my web app
+Comprehensive Development Environment
+Azure App Service brings together everything a developer needs to create websites, mobile backends, and web APIs for any platform or device. This all-in-one platform allows for rapid development, testing, and deployment of applications without the need for managing underlying infrastructure. Key benefits include:
+
+Infrastructure Maintenance: Azure App Service handles all the infrastructure maintenance, including updates and security patches, so developers can focus on coding rather than server management.
+Scalability: It offers both automatic and manual scaling options to handle varying loads, ensuring that applications remain responsive and performant.
+Security: Built-in security features protect applications from threats and vulnerabilities, with regular updates ensuring compliance with the latest standards.
+Multi-Language Support
+Azure App Service supports multiple programming languages, such as .NET, .NET Core, Java, Ruby, Node.js, PHP, and Python. This flexibility allows developers to use their preferred language or the language best suited for their project. In this case, the application is written in Python, which is fully supported, ensuring seamless integration and deployment.
+
+Quick Deployment
+Azure App Service allows for quick and straightforward deployment of web applications. Developers can deploy code directly from repositories or use continuous integration and deployment pipelines, reducing the time from development to production.
 
 ### Why not Virtual Machines
-- I don't want to control the underlying Operating System or install a software on the server.
-- Using App service I can quickly deploy my web application without creating programming environment.
-- Virtual machines behaves like a full, separate computer that I am responsible for everything: maitenance, security, update etc.
+Avoiding Operational Overhead
+Using Virtual Machines (VMs) means taking on the responsibility of managing the underlying operating system, including installing software, applying patches, and performing updates. This can be time-consuming and distracts from focusing on application development. In contrast, Azure App Service abstracts these responsibilities, providing a managed environment.
+
+Ease of Deployment
+Deploying applications on VMs often requires setting up the programming environment and managing dependencies manually. With Azure App Service, these environments are pre-configured, allowing for faster and more efficient deployment processes.
+
+Full Management Responsibility
+VMs behave like full, separate computers, which means developers are responsible for everything from security to system updates. This level of control can be advantageous in some scenarios but is generally more burdensome for routine web application deployment.
 
 ### Justification based on cost, scalability, avaliability and workflow:
 
-- Cost: Azure App service is less expensive than Virtual Machines. It provide different plans options such as Free and Shared (preview) plans to test or deploy an app. App Services also has built-in load balancers that help save infrastructure costs.
+Cost Efficiency
+Azure App Service is generally more cost-effective compared to VMs. It offers various pricing plans, including Free and Shared (preview) plans for testing or deploying simple apps. These plans include built-in load balancers, which can significantly reduce infrastructure costs. In contrast, VMs often require additional resources and services to achieve the same level of functionality.
 
-- Scalability: Azure provides developer with the possibility to easily scale his apps either horizontally or vertically. vertical scaling automatically increases or decreases resources allocated to our App Service, such as the amount of vCPUs or RAM, by changing the App Service pricing tier. Horizontal scaling increases or decreases the number of Virtual Machine instances our App Service is running.
-    - with Auto scaling App Service can automatically scale the number of instances based on a schedule or metrics like CPU, memory or HTTP queue length. 
+Scalability
+Azure App Service provides robust scaling options:
 
-- Availability: Global scale with high availability. Using App service I can host my app anywhere in Microsoft's global datacenter infrastructure, and the App Service SLA promises high availability.
+Vertical Scaling: Automatically adjusts resources like vCPUs or RAM by changing the pricing tier.
+Horizontal Scaling: Adjusts the number of VM instances running the app, based on metrics such as CPU usage, memory consumption, or HTTP queue length.
+These scaling options ensure that the application can handle increased loads without manual intervention, maintaining performance and reliability.
 
-- Workflow: Azure App service support automated deployments from GitHub, Azure DevOps, or any Git repository. With GitHub Actions for Azure web app, developer can create workflows in github repository to build, test, package, release and deploy to Azure. 
+Availability
+Azure App Service guarantees high availability with its global datacenter infrastructure. Applications can be hosted anywhere within Microsoft's extensive network of data centers, benefiting from redundancy and failover capabilities. The App Service SLA (Service Level Agreement) promises high availability, ensuring that applications remain accessible even during maintenance or unexpected downtimes.
+
+Streamlined Workflow
+Azure App Service supports automated deployments from GitHub, Azure DevOps, or any Git repository. Developers can leverage GitHub Actions for Azure web apps to create workflows that automate the build, test, package, release, and deploy processes. This integration enhances productivity and ensures that the latest code changes are consistently and reliably deployed. 
 
 ### Assess app changes that would change your decision.
 
@@ -46,8 +65,18 @@ The appropriate solution for deploying this web application is App Service.
 
 - Azure app service has a hardware limitations. Also is not an appropriate solution for apps which have scope to expand for future. Instead, VMs are preferred. If this app grows to a larger scale, when we have vast increase in the number of users or when more features are added to the app, I would choose a Virtual Machine.
 
-- For advanced scaling (auto) and traffic management features, I would go for VM. this can be done easier with Azure Virtual Machine Scale Sets.
+Hardware Limitations and Future Scalability Concerns
+Azure App Service, while highly efficient for small to medium-scale applications, does have inherent hardware limitations. These limitations can impact applications that anticipate significant growth in user base or functionality. Here are some key considerations:
 
-- If this application is later implemented using another programming language that is not supported by Azure app service. here, I will choose VM and create the environment for that programming language.
+Resource Cap: Azure App Service plans come with predefined resource limits (CPU, memory, storage) which may not be sufficient for applications that experience a vast increase in users or require more intensive processing power.
+Scaling Restrictions: Although App Service supports scaling, it may not handle extremely high traffic or complex scaling scenarios as efficiently as VMs can with Virtual Machine Scale Sets (VMSS).
+Preferred Solution for Large-Scale Applications
+When an application grows to a larger scale, Virtual Machines become the preferred solution due to their flexibility and control. Here are specific scenarios where VMs are advantageous:
 
-- Using App service, I have limited access to the host server, if I want to control the underlying OS or install a software on the server, I have to choose Virtual Machine.
+Advanced Scaling and Traffic Management: VMs, especially when used with VMSS, offer advanced auto-scaling and traffic management features. This allows applications to handle significant increases in load by automatically adding or removing VM instances based on demand, ensuring optimal performance and cost-efficiency.
+Custom Environments: If the application needs to be implemented using a programming language or technology stack not supported by Azure App Service, VMs offer the flexibility to create custom environments. This can be critical for specialized applications or those that leverage newer or less common technologies.
+Enhanced Control and Customization
+Using Azure App Service limits access to the underlying infrastructure, which may not be suitable for applications requiring extensive customization. Here are the detailed advantages of VMs in this context:
+
+Full OS Access: With VMs, developers have full control over the operating system, enabling them to install custom software, apply specific configurations, and optimize the environment for their application’s needs.
+Advanced Configuration and Tuning: For performance-critical applications, VMs allow for advanced system tuning and configuration that are not possible with Azure App Service. This includes custom networking setups, specialized security configurations, and the use of specific hardware features.
